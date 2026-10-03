@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ujjwal Music Player</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="script.js" defer></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav>
+
+        <div class="brand">
+
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Music_logo.png"
+                alt="Music Logo"
+            >
+
+            <span>Ujjwal Music</span>
+
+        </div>
+
+
+        <ul>
+
+            <li>
+                <a href="#home">Home</a>
+            </li>
+
+            <li>
+                <a href="#music">Music</a>
+            </li>
+
+            <li>
+                <a href="#about">About</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="container">
+
+
+        <!-- =========================
+             HERO / HOME
+        ========================== -->
+
+        <section class="hero" id="home">
+
+            <p class="small-text">
+                WELCOME TO MY MUSIC WORLD
+            </p>
+
+
+            <h1>
+                Listen to your
+                <span>favourite music</span>
+            </h1>
+
+
+            <div class="searchbox">
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Search song..."
+                >
+
+                <button id="searchBtn">
+                    Enter
+                </button>
+
+            </div>
+
+
+            <p class="description">
+        
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================
+             MUSIC SECTION
+        ========================== -->
+
+        <section class="music-section" id="music">
+
+            <h2>
+                Popular Songs 🎧
+            </h2>
+
+
+            <!-- Song 1 -->
+
+            <div class="songitem">
+
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaxO2jhwIa8sI9qeW2tK8XER6QzIyAQIT7rHnw8vkzKiJ7Pvm6XZBzwnc&s=10"
+                    alt="The Fat Rat"
+                >
+
+
+                <div class="song-info">
+
+                    <h3>
+                        The Fat Rat
+                    </h3>
+
+                    <p>
+                        Electronic Music
+                    </p>
+
+                </div>
+
+
+                <audio
+                    id="song1"
+                    src="songs/song.mp3">
+                </audio>
+
+
+                <button
+                    id="playBtn"
+                    class="play"
+                    onclick="playsong()"
+                >
+                    ▶
+                </button>
+
+            </div>
+
+
+
+            <!-- Song 2 -->
+
+            <div class="songitem">
+
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkdjPg9ELHWJUHm4Ck11CgXlUI4uF_r2ZC6ydFPJd26wTfYQrcUKSjcyg&s=10"
+                    alt="Infinity"
+                >
+
+
+                <div class="song-info">
+
+                    <h3>
+                        Infinity
+                    </h3>
+
+                    <p>
+                        Chill Music
+                    </p>
+
+                </div>
+
+
+                <audio
+                    id="song2"
+                    src="songs/song2.mp3">
+                </audio>
+
+
+                <button
+                    id="playBtn2"
+                    class="play"
+                    onclick="playsong2()"
+                >
+                    ▶
+                </button>
+
+            </div>
+
+
+
+            <!-- Song 3 -->
+
+            <div class="songitem">
+
+                <img
+                    src="https://m.media-amazon.com/images/I/71lEywwPAnL._AC_UF350,350_QL50_.jpg"
+                    alt="Middle of the Night"
+                >
+
+
+                <div class="song-info">
+
+                    <h3>
+                        Middle of the Night
+                    </h3>
+
+                    <p>
+                        Chill Music
+                    </p>
+
+                </div>
+
+
+                <audio
+                    id="song3"
+                    src="songs/song3.mp3">
+                </audio>
+
+
+                <button
+                    id="playBtn3"
+                    class="play"
+                    onclick="playsong3()"
+                >
+                    ▶
+                </button>
+
+            </div>
+
+
+
+            <!-- =========================
+                 MAIN MUSIC PLAYER
+            ========================== -->
+
+            <div class="player">
+
+                <h3 id="currentSongName">
+                    No Song Playing
+                </h3>
+
+
+                <div class="player-controls">
+
+                    <button id="prevBtn">
+                        ⏮
+                    </button>
+
+                    <button id="mainPlayBtn">
+                        ▶
+                    </button>
+
+                    <button id="nextBtn">
+                        ⏭
+                    </button>
+
+                </div>
+
+
+                <div class="progress-container">
+
+                    <span id="currentTime">
+                        0:00
+                    </span>
+
+
+                    <input
+                        type="range"
+                        id="progressBar"
+                        min="0"
+                        max="100"
+                        value="0"
+                    >
+
+
+                    <span id="duration">
+                        0:00
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FEATURES
+        ========================== -->
+
+        <section class="features">
+
+            <h2>
+                Why I Built This 🎵
+            </h2>
+
+
+            <p class="section-description">
+                I wanted to build something simple that actually
+                feels like a real website and also helped me
+                practice JavaScript.
+            </p>
+
+
+            <div class="feature-container">
+
+
+                <!-- Feature 1 -->
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🎧
+                    </div>
+
+
+                    <h3>
+                        Simple Music Player
+                    </h3>
+
+
+                    <p>
+                        Play, pause and switch between songs
+                        using a clean and simple interface.
+                    </p>
+
+                </div>
+
+
+
+                <!-- Feature 2 -->
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+
+                    <h3>
+                        Easy to Use
+                    </h3>
+
+
+                    <p>
+                        Search for a song and start listening
+                        without going through complicated menus.
+                    </p>
+
+                </div>
+
+
+
+                <!-- Feature 3 -->
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📱
+                    </div>
+
+
+                    <h3>
+                        Responsive Design
+                    </h3>
+
+
+                    <p>
+                        The website is designed to work nicely
+                        on desktop, tablet and mobile screens.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section class="about-section" id="about">
+
+            <div class="about-text">
+
+
+                <p class="small-text">
+                    A LITTLE ABOUT THIS PROJECT
+                </p>
+
+
+                <h2>
+                    Built with
+                    <span>music & code.</span>
+                </h2>
+
+
+                <p>
+                    Hi, I'm Ujjwal. I built Ujjwal Music as a small
+                    web development project while learning HTML,
+                    CSS and JavaScript.
+                </p>
+
+
+                <p>
+                    I wanted to make a music player that was simple
+                    to understand but still had useful features.
+                    You can search for songs, play or pause music,
+                    use next and previous controls and move through
+                    a song using the progress bar.
+                </p>
+
+
+                <p>
+                    This is a learning project, so I plan to keep
+                    improving it as I learn more about web development
+                    and JavaScript.
+                </p>
+
+
+                <button
+                    class="about-btn"
+                    onclick="document.getElementById('music').scrollIntoView({behavior:'smooth'})"
+                >
+                    Explore Music 🎵
+                </button>
+
+            </div>
+
+
+
+            <div class="about-box">
+
+                <div class="big-music-icon">
+                    🎶
+                </div>
+
+
+                <h3>
+                    Made by Ujjwal
+                </h3>
+
+
+                <p>
+                    Learning by building,
+                    one project at a time.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             HOW IT WORKS
+        ========================== -->
+
+        <section class="how-section">
+
+            <p class="small-text">
+                HOW IT WORKS
+            </p>
+
+
+            <h2>
+                Enjoy music in
+                <span>3 simple steps</span>
+            </h2>
+
+
+            <div class="steps">
+
+
+                <!-- Step 1 -->
+
+                <div class="step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+
+                    <h3>
+                        Search
+                    </h3>
+
+
+                    <p>
+                        Search for the song you want to listen to.
+                    </p>
+
+                </div>
+
+
+
+                <!-- Step 2 -->
+
+                <div class="step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+
+                    <h3>
+                        Play
+                    </h3>
+
+
+                    <p>
+                        Click the play button and start listening.
+                    </p>
+
+                </div>
+
+
+
+                <!-- Step 3 -->
+
+                <div class="step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+
+                    <h3>
+                        Enjoy
+                    </h3>
+
+
+                    <p>
+                        Use the player controls and enjoy your music.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             CTA
+        ========================== -->
+
+        <section class="cta-section">
+
+            <h2>
+                Ready to listen? 🎧
+            </h2>
+
+
+            <p>
+                Pick a song, press play and enjoy your music.
+            </p>
+
+
+            <button
+                class="cta-btn"
+                onclick="document.getElementById('music').scrollIntoView({behavior:'smooth'})"
+            >
+                Start Listening
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <p>
+            Made by Ujjwal 🎵
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
+```

@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ujjwal Music | Spotify Clone</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <h1 class="logo">
+      <i class="fa-brands fa-spotify"></i>
+      Ujjwal Music
+    </h1>
+
+    <nav class="navigation">
+
+      <a href="#" class="active">
+        <i class="fa-solid fa-house"></i>
+        Home
+      </a>
+
+      <a href="#searchArea">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Search
+      </a>
+
+      <a href="#library">
+        <i class="fa-solid fa-book"></i>
+        Your Library
+      </a>
+
+    </nav>
+
+    <div class="playlist-box">
+
+      <h3>Create your playlist</h3>
+
+      <p>
+        Save your favorite songs and
+        create your own playlist.
+      </p>
+
+      <button id="createPlaylist">
+        <i class="fa-solid fa-plus"></i>
+        Create playlist
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+
+      <div class="navigation-buttons">
+
+        <button onclick="history.back()">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <button onclick="history.forward()">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+      </div>
+
+      <div class="profile">
+        U
+      </div>
+
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+
+      <p class="hero-label">
+        WELCOME TO UJJWAL MUSIC
+      </p>
+
+      <h2>
+        Good music.<br>
+        Better mood.
+      </h2>
+
+      <p class="hero-description">
+        Discover your favorite songs
+        and enjoy your music journey.
+      </p>
+
+    </section>
+
+
+    <!-- Search -->
+    <section class="search-section" id="searchArea">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="What do you want to play?">
+
+    </section>
+
+
+    <!-- Song Section -->
+    <section class="music-section">
+
+      <div class="section-header">
+
+        <h2>Made For You</h2>
+
+        <span>Show all</span>
+
+      </div>
+
+      <!-- Songs will be inserted using JavaScript -->
+      <div id="songGrid" class="song-grid"></div>
+
+    </section>
+
+
+    <!-- Recently Played -->
+    <section class="music-section">
+
+      <div class="section-header">
+
+        <h2>Recently Played</h2>
+
+      </div>
+
+      <div id="recentList" class="recent-list"></div>
+
+    </section>
+
+  </main>
+
+
+  <!-- Bottom Music Player -->
+  <footer class="music-player">
+
+
+    <!-- Current Song Details -->
+    <div class="now-playing">
+
+      <img
+        id="currentCover"
+        src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=200"
+        alt="Current song cover">
+
+      <div class="song-details">
+
+        <strong id="currentTitle">
+          Choose a song
+        </strong>
+
+        <p id="currentArtist">
+          Ujjwal Music
+        </p>
+
+      </div>
+
+      <button id="likeButton" title="Like song">
+        ♡
+      </button>
+
+    </div>
+
+
+    <!-- Player Controls -->
+    <div class="player-controls">
+
+      <div class="control-buttons">
+
+        <button id="shuffleButton" title="Shuffle">
+          <i class="fa-solid fa-shuffle"></i>
+        </button>
+
+        <button id="previousButton" title="Previous">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+
+        <button id="playButton" class="play-button" title="Play">
+          <i class="fa-solid fa-play"></i>
+        </button>
+
+        <button id="nextButton" title="Next">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+
+        <button id="repeatButton" title="Repeat">
+          <i class="fa-solid fa-repeat"></i>
+        </button>
+
+      </div>
+
+
+      <!-- Progress Bar -->
+      <div class="progress-row">
+
+        <span id="currentTime">
+          0:00
+        </span>
+
+        <input
+          type="range"
+          id="progress"
+          min="0"
+          max="100"
+          value="0">
+
+        <span id="duration">
+          0:00
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Volume -->
+    <div class="volume-control">
+
+      <i class="fa-solid fa-volume-high"></i>
+
+      <input
+        type="range"
+        id="volume"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.8">
+
+    </div>
+
+  </footer>
+
+
+  <!-- Audio Element -->
+  <audio id="audio"></audio>
+
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>

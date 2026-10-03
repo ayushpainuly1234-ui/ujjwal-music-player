@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CodeArena</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Code<span>Arena</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Problems</a>
+            <a href="#">Contest</a>
+            <a href="#">Discuss</a>
+        </div>
+
+        <button class="profile-btn">U</button>
+
+    </nav>
+
+
+    <!-- Main -->
+    <main>
+
+        <!-- Problems Section -->
+        <section class="problems-section">
+
+            <div class="heading">
+
+                <div>
+                    <h1>Problems</h1>
+                    <p>Sharpen your coding skills.</p>
+                </div>
+
+            </div>
+
+
+            <!-- Search + Filter -->
+            <div class="filters">
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Search problems..."
+                >
+
+                <select id="difficulty">
+
+                    <option value="all">All Difficulty</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Problem List -->
+            <div id="problemList" class="problem-list">
+
+            </div>
+
+        </section>
+
+
+        <!-- Problem Editor -->
+        <section class="editor-section" id="editorSection">
+
+            <div class="problem-header">
+
+                <div>
+
+                    <span id="problemDifficulty" class="difficulty">
+                        Easy
+                    </span>
+
+                    <h2 id="problemTitle">
+                        Two Sum
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="description">
+
+                <h3>Description</h3>
+
+                <p id="problemDescription">
+                    Given an array of integers nums and an integer target,
+                    return indices of the two numbers such that they add up
+                    to target.
+                </p>
+
+            </div>
+
+
+            <!-- Code Editor -->
+            <div class="code-area">
+
+                <div class="editor-top">
+
+                    <span>JavaScript</span>
+
+                    <button id="resetBtn">
+                        Reset
+                    </button>
+
+                </div>
+
+                <textarea id="codeEditor">
+function twoSum(nums, target) {
+
+    // Write your code here
+
+}
+                </textarea>
+
+            </div>
+
+
+            <!-- Test Cases -->
+            <div class="test-section">
+
+                <h3>Test Cases</h3>
+
+                <div class="test-case">
+
+                    <p>
+                        <b>Input:</b>
+                        nums = [2,7,11,15], target = 9
+                    </p>
+
+                    <p>
+                        <b>Expected:</b>
+                        [0,1]
+                    </p>
+
+                </div>
+
+                <div class="test-case">
+
+                    <p>
+                        <b>Input:</b>
+                        nums = [3,2,4], target = 6
+                    </p>
+
+                    <p>
+                        <b>Expected:</b>
+                        [1,2]
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="actions">
+
+                <button id="runBtn" class="run">
+                    Run Code
+                </button>
+
+                <button id="submitBtn" class="submit">
+                    Submit
+                </button>
+
+            </div>
+
+
+            <!-- Result -->
+            <div id="result" class="result">
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

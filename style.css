@@ -1,0 +1,761 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #080d0b;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+    height: 75px;
+    background: #101713;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    border-bottom: 1px solid #26352c;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.brand img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav ul li {
+    color: #c8d2cc;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+nav ul li:hover {
+    color: #1db954;
+}
+
+/* Navbar links */
+nav ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container {
+    width: 85%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero {
+    padding: 70px 0 45px;
+}
+
+.small-text {
+    color: #1db954;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-size: clamp(35px, 6vw, 65px);
+    line-height: 1.1;
+    max-width: 700px;
+}
+
+.hero h1 span {
+    color: #1db954;
+}
+
+.description {
+    margin-top: 22px;
+    color: #9ca9a1;
+    font-size: 16px;
+}
+
+
+/* =========================
+   SEARCH BOX
+========================= */
+
+.searchbox {
+    display: flex;
+    max-width: 600px;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+.searchbox input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid #263b2e;
+    border-radius: 25px;
+    background: #111a15;
+    color: white;
+    outline: none;
+    font-size: 15px;
+}
+
+.searchbox input:focus {
+    border-color: #1db954;
+}
+
+.searchbox button {
+    padding: 0 22px;
+    border: none;
+    border-radius: 25px;
+    background: #1db954;
+    color: #07100a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.searchbox button:hover {
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   MUSIC SECTION
+========================= */
+
+.music-section {
+    padding-bottom: 50px;
+}
+
+.music-section h2 {
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   SONG CARD
+========================= */
+
+.songitem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 650px;
+    min-height: 85px;
+    padding: 12px 18px 12px 12px;
+    margin-bottom: 16px;
+
+    background: #16221b;
+    border: 1px solid #263b2e;
+    border-radius: 14px;
+
+    transition: 0.3s;
+}
+
+.songitem:hover {
+    transform: translateY(-4px);
+    border-color: #1db954;
+    background: #1b2c22;
+}
+
+.songitem img {
+    width: 62px;
+    height: 62px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 18px;
+}
+
+.song-info h3 {
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+.song-info p {
+    color: #8fa197;
+    font-size: 13px;
+}
+
+
+/* =========================
+   SONG PLAY BUTTON
+========================= */
+
+.play {
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #1db954;
+    color: #07100a;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.play:hover {
+    transform: scale(1.12);
+    background: #25e568;
+}
+
+
+/* =========================
+   MUSIC PLAYER
+========================= */
+
+.player {
+    margin: 40px auto;
+    padding: 25px;
+    max-width: 700px;
+
+    background: rgba(24, 27, 25, 0.9);
+
+    border: 1px solid #294238;
+    border-radius: 20px;
+
+    text-align: center;
+}
+
+.player h3 {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+
+/* Player Controls */
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+}
+
+.player-controls button {
+    width: 50px;
+    height: 45px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #1db954;
+
+    cursor: pointer;
+    font-size: 18px;
+
+    transition: 0.3s;
+}
+
+.player-controls button:hover {
+    transform: scale(1.1);
+}
+
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-container span {
+    font-size: 13px;
+    color: #aaa;
+    min-width: 35px;
+}
+
+#progressBar {
+    flex: 1;
+    cursor: pointer;
+}
+
+
+/* =========================
+   FEATURES SECTION
+========================= */
+
+.features {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.section-description {
+    color: #9ca9a5;
+    font-size: 17px;
+    margin-bottom: 40px;
+}
+
+.feature-container {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.feature-card {
+    width: 30%;
+
+    padding: 35px 25px;
+
+    background: #111f19;
+
+    border: 1px solid #263d33;
+    border-radius: 20px;
+
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    border-color: #1db954;
+}
+
+.feature-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #9ca9a5;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   ABOUT SECTION
+========================= */
+
+.about-section {
+    margin-top: 120px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 60px;
+}
+
+.about-text {
+    width: 55%;
+}
+
+.about-text h2 {
+    font-size: 42px;
+    margin: 10px 0 20px;
+}
+
+.about-text h2 span {
+    color: #1db954;
+}
+
+.about-text p {
+    color: #a9b5b1;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+.about-btn {
+    margin-top: 20px;
+
+    padding: 12px 25px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #1db954;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.about-btn:hover {
+    transform: scale(1.05);
+}
+
+.about-box {
+    width: 35%;
+
+    padding: 50px 30px;
+
+    text-align: center;
+
+    background: linear-gradient(
+        145deg,
+        #14251d,
+        #0c1511
+    );
+
+    border: 1px solid #294238;
+    border-radius: 25px;
+}
+
+.big-music-icon {
+    font-size: 80px;
+    margin-bottom: 15px;
+}
+
+.about-box h3 {
+    font-size: 24px;
+}
+
+.about-box p {
+    color: #9ca9a5;
+}
+
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.how-section {
+    margin-top: 120px;
+    text-align: center;
+}
+
+.how-section h2 {
+    font-size: 40px;
+    margin: 10px 0 50px;
+}
+
+.how-section h2 span {
+    color: #1db954;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.step {
+    flex: 1;
+
+    padding: 30px;
+
+    background: #101c17;
+
+    border-radius: 20px;
+    border: 1px solid #263b32;
+}
+
+.step-number {
+    color: #1db954;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.step h3 {
+    font-size: 22px;
+}
+
+.step p {
+    color: #9ca9a5;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   CTA SECTION
+========================= */
+
+.cta-section {
+    margin-top: 120px;
+
+    padding: 70px 30px;
+
+    text-align: center;
+
+    border-radius: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #14291f,
+        #0d1712
+    );
+
+    border: 1px solid #294238;
+}
+
+.cta-section h2 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    color: #a9b5b1;
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.cta-btn {
+    padding: 13px 30px;
+
+    border: none;
+    border-radius: 25px;
+
+    background: #1db954;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+
+    padding: 25px;
+
+    color: #738279;
+
+    font-size: 13px;
+
+    border-top: 1px solid #26352c;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 600px) {
+
+    /* Navbar */
+
+    nav {
+        padding: 0 5%;
+    }
+
+    nav ul {
+        gap: 12px;
+        font-size: 13px;
+    }
+
+    .brand {
+        font-size: 16px;
+    }
+
+    .brand img {
+        width: 35px;
+        height: 35px;
+    }
+
+
+    /* Container */
+
+    .container {
+        width: 90%;
+    }
+
+
+    /* Hero */
+
+    .hero {
+        padding-top: 45px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+
+    /* Search */
+
+    .searchbox {
+        flex-direction: column;
+    }
+
+    .searchbox button {
+        height: 45px;
+    }
+
+
+    /* Song Card */
+
+    .songitem {
+        padding: 10px;
+    }
+
+    .songitem img {
+        width: 52px;
+        height: 52px;
+        margin-right: 12px;
+    }
+
+    .song-info h3 {
+        font-size: 14px;
+    }
+
+    .song-info p {
+        font-size: 11px;
+    }
+
+    .play {
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+    }
+
+
+    /* Player */
+
+    .player {
+        padding: 20px 15px;
+    }
+
+    .player-controls {
+        gap: 20px;
+    }
+
+    .player-controls button {
+        width: 45px;
+        height: 42px;
+    }
+
+    .progress-container {
+        gap: 7px;
+    }
+
+
+    /* Features */
+
+    .features {
+        margin-top: 70px;
+    }
+
+    .features h2 {
+        font-size: 28px;
+    }
+
+    .feature-container {
+        flex-direction: column;
+    }
+
+    .feature-card {
+        width: 100%;
+    }
+
+
+    /* About */
+
+    .about-section {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .about-text,
+    .about-box {
+        width: 100%;
+    }
+
+    .about-text h2 {
+        font-size: 34px;
+    }
+
+
+    /* How It Works */
+
+    .how-section {
+        margin-top: 80px;
+    }
+
+    .how-section h2 {
+        font-size: 32px;
+    }
+
+    .steps {
+        flex-direction: column;
+    }
+
+
+    /* CTA */
+
+    .cta-section {
+        margin-top: 80px;
+        padding: 50px 20px;
+    }
+
+    .cta-section h2 {
+        font-size: 32px;
+    }
+
+}
+
+
+

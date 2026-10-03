@@ -1,0 +1,389 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0f1117;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+
+/* Navbar */
+
+.navbar {
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 40px;
+
+    background: #16181d;
+
+    border-bottom: 1px solid #2a2d35;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #ffa116;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+
+    margin-left: 60px;
+}
+
+.nav-links a {
+    color: #aaa;
+
+    text-decoration: none;
+
+    font-size: 15px;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.profile-btn {
+    margin-left: auto;
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background: #ffa116;
+
+    font-weight: bold;
+}
+
+
+/* Main */
+
+main {
+    display: grid;
+
+    grid-template-columns: 40% 60%;
+
+    min-height: calc(100vh - 65px);
+}
+
+
+/* Problems */
+
+.problems-section {
+    padding: 35px;
+
+    border-right: 1px solid #2a2d35;
+}
+
+.heading h1 {
+    font-size: 30px;
+}
+
+.heading p {
+    color: #888;
+
+    margin-top: 8px;
+}
+
+
+/* Filters */
+
+.filters {
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 30px;
+}
+
+.filters input,
+.filters select {
+
+    background: #1b1e25;
+
+    border: 1px solid #333;
+
+    color: white;
+
+    padding: 12px;
+
+    border-radius: 6px;
+
+    outline: none;
+}
+
+.filters input {
+    flex: 1;
+}
+
+
+/* Problem List */
+
+.problem-list {
+    margin-top: 25px;
+}
+
+.problem {
+
+    padding: 18px;
+
+    border-bottom: 1px solid #292c33;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.problem:hover {
+    background: #191c22;
+}
+
+.problem h3 {
+    font-size: 16px;
+}
+
+.problem p {
+    color: #777;
+
+    margin-top: 7px;
+
+    font-size: 13px;
+}
+
+.easy {
+    color: #00b8a3;
+}
+
+.medium {
+    color: #ffc01e;
+}
+
+.hard {
+    color: #ff375f;
+}
+
+
+/* Editor */
+
+.editor-section {
+    padding: 35px;
+
+    background: #0c0e13;
+}
+
+.problem-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.problem-header h2 {
+    margin-top: 12px;
+
+    font-size: 27px;
+}
+
+.difficulty {
+    font-size: 13px;
+}
+
+
+/* Description */
+
+.description {
+    margin-top: 25px;
+}
+
+.description h3 {
+    margin-bottom: 10px;
+}
+
+.description p {
+    color: #aaa;
+
+    line-height: 1.6;
+}
+
+
+/* Code Editor */
+
+.code-area {
+    margin-top: 30px;
+
+    border: 1px solid #30343d;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.editor-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 12px 15px;
+
+    background: #191c22;
+
+    color: #aaa;
+}
+
+.editor-top button {
+
+    background: none;
+
+    border: none;
+
+    color: #aaa;
+
+    cursor: pointer;
+}
+
+textarea {
+
+    width: 100%;
+
+    height: 280px;
+
+    resize: none;
+
+    border: none;
+
+    outline: none;
+
+    padding: 20px;
+
+    background: #0b0d11;
+
+    color: #e6e6e6;
+
+    font-family: monospace;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* Test Cases */
+
+.test-section {
+    margin-top: 25px;
+}
+
+.test-case {
+
+    margin-top: 10px;
+
+    padding: 15px;
+
+    background: #171a20;
+
+    border-radius: 6px;
+
+    color: #aaa;
+
+    font-size: 14px;
+}
+
+
+/* Buttons */
+
+.actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.actions button {
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.run {
+    background: #2d313a;
+
+    color: white;
+}
+
+.submit {
+    background: #ffa116;
+
+    color: black;
+}
+
+
+/* Result */
+
+.result {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border-radius: 6px;
+
+    display: none;
+}
+
+.success {
+    display: block;
+
+    background: #12352f;
+
+    color: #00d9a6;
+}
+
+.error {
+    display: block;
+
+    background: #3b171d;
+
+    color: #ff5c75;
+}
+
+
+/* Responsive */
+
+@media(max-width: 900px) {
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .problems-section {
+        border-right: none;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}
