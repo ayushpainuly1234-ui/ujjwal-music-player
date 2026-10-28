@@ -1,5 +1,7 @@
 # Ujjwal Music Player
 
+![JavaScript syntax checks](https://github.com/ayushpainuly1234-ui/ujjwal-music-player/actions/workflows/ci.yml/badge.svg)
+
 A responsive, browser-based music player built with **HTML, CSS, and vanilla JavaScript**. It plays a small playlist of local audio files and provides the core controls needed for a lightweight listening experience.
 
 > **Project status:** Frontend project. A public live demo has not been configured yet. Run it locally using the steps below.
@@ -53,7 +55,7 @@ The main application is the set of root-level `index.html`, `style.css`, and `sc
 
 ## Manual verification checklist
 
-This repository does not currently include an automated test suite. Before presenting a change as verified, check it in a browser:
+GitHub Actions runs `node --check` on every JavaScript file whenever code is pushed or a pull request targets `main`. This catches syntax errors, but it is not a substitute for behavioral unit tests. Before presenting a change as verified, check it in a browser:
 
 - [ ] A track starts and pauses with the expected controls.
 - [ ] Starting a different track pauses the previously playing track.
