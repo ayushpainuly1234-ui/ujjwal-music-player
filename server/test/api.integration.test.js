@@ -101,6 +101,12 @@ test("account, catalogue, private uploads, playlists, favourites and playback re
   });
   assert.equal(response.status, 204);
 
+  response = await request("/api/library/recommendations");
+  assert.equal(response.status, 200);
+  const recommendations = (await response.json()).songs;
+  assert.ok(Array.isArray(recommendations));
+  assert.ok(recommendations.every(song => String(song._id) !== String(demoSong._id)), "recently played and liked songs should be deprioritized from recommendations");
+
   response = await request("/api/library/playback", {
     method: "PUT",
     body: JSON.stringify({ songId: demoSong._id, positionSeconds: 37 }),
