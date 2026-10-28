@@ -7,6 +7,71 @@ const { requireAuth } = require("../middleware/auth");
 const router = express.Router();
 router.use(requireAuth);
 
+router.get("/recommendations", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id)
+      .populate("likedSongs", "title artist album genre coverUrl audioUrl durationSeconds")
+      .populate("recentlyPlayed.song", "title artist album genre coverUrl audioUrl durationSeconds")
+      .lean();
+
+    const genreWeights = new Map();
+    const artistWeights = new Map();
+    const excluded = new Set();
+
+    const addWeight = (map, value, amount) => {
+      const key = typeof value === "string" ? value.trim().toLowerCase() : "";
+      if (key) map.set(key, (map.get(key) || 0) + amount);
+    };
+
+    for (const song of user.likedSongs || []) {
+      addWeight(genreWeights, song.genre, 3);
+      addWeight(artistWeights, song.artist, 1.5);
+      excluded.add(song._id.toString());
+    }
+
+    for (const [index, entry] of (user.recentlyPlayed || []).slice(0, 5).entries()) {
+      const song = entry.song;
+      if (!song) continue;
+      const weight = Math.max(0.75, 2.5 - index * 0.3);
+      addWeight(genreWeights, song.genre, weight);
+      addWeight(artistWeights, song.artist, weight * 0.5);
+      excluded.add(song._id.toString());
+    }
+
+    const candidates = await Song.find({
+      $or: [{ isPublic: true }, { uploadedBy: req.user._id }]
+    }).sort({ createdAt: -1 }).limit(200).lean();
+
+    const ranked = candidates.map(song => {
+      const genreWeight = genreWeights.get((song.genre || "").trim().toLowerCase()) || 0;
+      const artistWeight = artistWeights.get((song.artist || "").trim().toLowerCase()) || 0;
+      const score = genreWeight * 2 + artistWeight;
+      const reason = genreWeight > 0
+        ? "Because you listen to " + song.genre
+        : artistWeight > 0
+          ? "Because you listen to " + song.artist
+          : "A track from your available library";
+      return { song, score, reason };
+    });
+
+    const fresh = ranked
+      .filter(item => !excluded.has(item.song._id.toString()))
+      .sort((a, b) => b.score - a.score || new Date(b.song.createdAt) - new Date(a.song.createdAt));
+
+    let recommendations = fresh.slice(0, 8);
+    if (recommendations.length === 0) {
+      recommendations = ranked
+        .sort((a, b) => new Date(b.song.createdAt) - new Date(a.song.createdAt))
+        .slice(0, 8);
+    }
+
+    res.json({
+      strategy: "listening-history-and-favourites",
+      songs: recommendations.map(item => ({ ...item.song, recommendationReason: item.reason }))
+    });
+  } catch (error) { next(error); }
+});
+
 function visibleSongFilter(songId, userId) {
   return { _id: songId, $or: [{ isPublic: true }, { uploadedBy: userId }] };
 }
