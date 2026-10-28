@@ -428,6 +428,7 @@ async function playSong(songId) {
     return;
   }
   if (state.currentSongId !== String(songId)) {
+    await savePlayback(true);
     audio.pause();
     audio.src = song.audioUrl;
     audio.load();
@@ -612,6 +613,7 @@ async function deletePlaylist(playlistId) {
 
 async function signOut() {
   if (!window.confirm("Sign out of SoundSphere?")) return;
+  await savePlayback(true);
   try { await api("/api/auth/logout", { method: "POST" }); } catch (_error) {}
   audio.pause();
   state.user = null;
