@@ -32,9 +32,10 @@ function issueSession(user, res) {
 
 router.post("/register", async (req, res, next) => {
   try {
-    const name = typeof req.body.name === "string" ? req.body.name.trim() : "";
-    const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
-    const password = typeof req.body.password === "string" ? req.body.password : "";
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const password = typeof body.password === "string" ? body.password : "";
 
     const validationError = validateRegistration({ name, email, password });
     if (validationError) return res.status(400).json({ error: validationError });
@@ -51,8 +52,9 @@ router.post("/register", async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   try {
-    const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
-    const password = typeof req.body.password === "string" ? req.body.password : "";
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const password = typeof body.password === "string" ? body.password : "";
     const user = await User.findOne({ email }).select("+passwordHash");
 
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
