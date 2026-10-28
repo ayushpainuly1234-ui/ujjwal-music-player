@@ -4,7 +4,8 @@
 
 A responsive, browser-based music player built with **HTML, CSS, and vanilla JavaScript**. It plays a small playlist of local audio files and provides the core controls needed for a lightweight listening experience.
 
-> **Project status:** Frontend project. A public live demo has not been configured yet. Run it locally using the steps below.
+> **Live demo:** [Open Ujjwal Music Player](https://ayushpainuly1234-ui.github.io/ujjwal-music-player/)  
+> **Project status:** Frontend prototype deployed with GitHub Pages. It runs in the browser and uses the repository's local audio assets.
 
 ## Features
 
