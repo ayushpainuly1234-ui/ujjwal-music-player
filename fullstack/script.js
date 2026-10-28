@@ -852,6 +852,7 @@ async function init() {
     renderLikes();
     renderPlaylists();
     renderHistory();
+    renderRecommendations();
   }
 }
 
