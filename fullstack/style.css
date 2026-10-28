@@ -695,3 +695,5 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
   .dialog-card { padding: 24px 20px; }
   .toast { bottom: 135px; right: 12px; }
 }
+
+.recommendation-reason { color: #a7c39b !important; font-size: 10px !important; line-height: 1.4; min-height: 26px; margin-top: 8px !important; white-space: normal !important; }
