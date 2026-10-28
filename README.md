@@ -9,6 +9,7 @@ SoundSphere is an upgrade of Ujjwal's original music player into a full-stack ap
 - **Music catalogue:** searchable public demo tracks plus your own private tracks while signed in.
 - **Persistent playlists and favourites:** saved in MongoDB rather than only in browser storage.
 - **Listening history and playback recovery:** remembers recent tracks and the last saved playback position for your account.
+- **Personal recommendations:** ranks public and your own tracks using your listening history and favourite genres/artists. This is a transparent heuristic, not a claim of AI training.
 - **Player controls:** play/pause, seek, volume, previous/next, shuffle, repeat, and responsive layouts.
 - **Security basics:** input validation, password hashing, request-size limits, login rate limiting, security headers, protected playlist APIs, audio-upload allowlist, private upload routes, and automated checks.
 
