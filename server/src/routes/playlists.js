@@ -33,7 +33,7 @@ router.post("/:id/songs", async (req, res, next) => {
     if (!/^[a-f\d]{24}$/i.test(String(songId || ""))) return res.status(400).json({ error: "A valid songId is required." });
     const [playlist, song] = await Promise.all([
       Playlist.findOne({ _id: req.params.id, owner: req.user._id }),
-      Song.findOne({ _id: songId, isPublic: true }).select("_id")
+      Song.findOne({ _id: songId, $or: [{ isPublic: true }, { uploadedBy: req.user._id }] }).select("_id")
     ]);
     if (!playlist) return res.status(404).json({ error: "Playlist not found." });
     if (!song) return res.status(404).json({ error: "Song not found." });
