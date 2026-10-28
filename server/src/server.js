@@ -29,7 +29,7 @@ app.use(helmet({
       baseUri: ["'self'"],
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:"],
       styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
       mediaSrc: ["'self'", "https:", "blob:"],
       connectSrc: ["'self'"],
@@ -66,6 +66,8 @@ app.use("/api/auth", authLimiter, require("./routes/auth"));
 app.use("/api/songs", require("./routes/songs"));
 app.use("/api/playlists", require("./routes/playlists"));
 app.use("/api/library", require("./routes/library"));
+
+app.use("/api", (_req, res) => res.status(404).json({ error: "API endpoint not found." }));
 
 app.use("/songs", express.static(path.join(projectRoot, "songs"), {
   dotfiles: "deny",
