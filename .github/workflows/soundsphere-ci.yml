@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MONGO_URI: mongodb://127.0.0.1:27017/soundsphere_test
+      RUN_DB_INTEGRATION_TESTS: "true"
       JWT_SECRET: github-actions-test-secret-not-for-production-123456
     services:
       mongodb:
