@@ -83,7 +83,7 @@ All playlist and personal library endpoints require a valid session. Uploaded fi
 
 ## Important limitations before public deployment
 
-This is a substantial learning/MVP project, not a verified production streaming service. Local uploads live on the server's disk and would need persistent storage or an object-storage service for many cloud hosts. Before exposing it publicly, add integration tests against a test database, inspect audio-file contents rather than relying only on extension/MIME, configure HTTPS and secrets in the host, add account recovery/CSRF strategy appropriate to the deployment, and decide whether public sharing/moderation is supported. Only upload music you own or have permission to store and stream.
+This is a substantial learning/MVP project, not a verified production streaming service. Local uploads live on the server's disk and would need persistent storage or an object-storage service for many cloud hosts. Before exposing it publicly, expand end-to-end coverage, inspect audio-file contents rather than relying only on extension/MIME, configure HTTPS and secrets in the host, add account recovery/CSRF strategy appropriate to the deployment, and decide whether public sharing/moderation is supported. Only upload music you own or have permission to store and stream.
 
 ## Project layout
 
