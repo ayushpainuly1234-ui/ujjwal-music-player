@@ -1,0 +1,41 @@
+name: SoundSphere CI
+
+on:
+  push:
+    branches: ["main", "feat/full-stack-soundsphere"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      MONGO_URI: mongodb://127.0.0.1:27017/soundsphere_test
+      RUN_DB_INTEGRATION_TESTS: "true"
+      JWT_SECRET: github-actions-test-secret-not-for-production-123456
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ping:1}).ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Check JavaScript syntax
+        run: |
+          find src test -name '*.js' -type f -print0 | xargs -0 -n1 node --check
+          node --check ../fullstack/script.js
+      - name: Run validation tests
+        run: npm test

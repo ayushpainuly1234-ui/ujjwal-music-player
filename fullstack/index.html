@@ -1,267 +1,157 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Ujjwal Music | Spotify Clone</title>
-
-  <!-- CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SoundSphere helps you organize your personal music library, save playlists and recover your listening progress.">
+  <meta name="theme-color" content="#101510">
+  <title>SoundSphere — Your Music, Organized</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-
-  <!-- Sidebar -->
   <aside class="sidebar">
-
-    <h1 class="logo">
-      <i class="fa-brands fa-spotify"></i>
-      Ujjwal Music
-    </h1>
-
-    <nav class="navigation">
-
-      <a href="#" class="active">
-        <i class="fa-solid fa-house"></i>
-        Home
-      </a>
-
-      <a href="#searchArea">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        Search
-      </a>
-
-      <a href="#library">
-        <i class="fa-solid fa-book"></i>
-        Your Library
-      </a>
-
+    <a class="logo" href="#" aria-label="SoundSphere home">
+      <i class="fa-solid fa-compact-disc" aria-hidden="true"></i>
+      <span>SoundSphere</span>
+    </a>
+    <nav class="navigation" aria-label="Main navigation">
+      <a href="#" class="active"><i class="fa-solid fa-house" aria-hidden="true"></i> Home</a>
+      <a href="#searchArea"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Search</a>
+      <a href="#library"><i class="fa-solid fa-book" aria-hidden="true"></i> Your Library</a>
+      <a href="#recentSection"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Listening history</a>
     </nav>
-
     <div class="playlist-box">
-
-      <h3>Create your playlist</h3>
-
-      <p>
-        Save your favorite songs and
-        create your own playlist.
-      </p>
-
-      <button id="createPlaylist">
-        <i class="fa-solid fa-plus"></i>
-        Create playlist
-      </button>
-
+      <h3>Your collections</h3>
+      <p>Create playlists that stay with your account, even after you close the browser.</p>
+      <button id="createPlaylist" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Create playlist</button>
+      <p class="sidebar-hint" id="accountHint">Sign in to sync playlists and favourites.</p>
     </div>
-
+    <div class="sidebar-footer">Built for your personal library.</div>
   </aside>
 
-
-  <!-- Main Content -->
   <main class="main-content">
-
-    <!-- Top Header -->
     <header class="top-header">
-
-      <div class="navigation-buttons">
-
-        <button onclick="history.back()">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <button onclick="history.forward()">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
+      <div>
+        <p class="eyebrow">YOUR PERSONAL MUSIC SPACE</p>
+        <h1 class="top-title">SoundSphere</h1>
       </div>
-
-      <div class="profile">
-        U
-      </div>
-
+      <button class="profile" id="authButton" type="button" aria-label="Sign in or view account">Sign in</button>
     </header>
 
-
-    <!-- Hero Section -->
     <section class="hero-section">
-
-      <p class="hero-label">
-        WELCOME TO UJJWAL MUSIC
-      </p>
-
-      <h2>
-        Good music.<br>
-        Better mood.
-      </h2>
-
-      <p class="hero-description">
-        Discover your favorite songs
-        and enjoy your music journey.
-      </p>
-
+      <p class="hero-label">LESS SEARCHING. MORE LISTENING.</p>
+      <h2>Your music,<br><span>finally organized.</span></h2>
+      <p class="hero-description">Keep your favourite tracks, build playlists, and pick up where you stopped.</p>
+      <div class="hero-points"><span><i class="fa-solid fa-cloud" aria-hidden="true"></i> Saved library</span><span><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Playback recovery</span><span><i class="fa-solid fa-lock" aria-hidden="true"></i> Private playlists</span></div>
     </section>
 
-
-    <!-- Search -->
-    <section class="search-section" id="searchArea">
-
-      <i class="fa-solid fa-magnifying-glass"></i>
-
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="What do you want to play?">
-
+    <section class="search-section" id="searchArea" role="search">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input type="search" id="searchInput" placeholder="Search title, artist, album or genre..." aria-label="Search songs">
+      <span id="searchStatus" class="search-status" aria-live="polite"></span>
     </section>
 
-
-    <!-- Song Section -->
-    <section class="music-section">
-
+    <section class="music-section recommendation-section" id="recommendationSection">
       <div class="section-header">
-
-        <h2>Made For You</h2>
-
-        <span>Show all</span>
-
+        <div><p class="eyebrow">BASED ON YOUR LISTENING</p><h2>Picked for you</h2></div>
+        <span class="muted">Personalized, not random</span>
       </div>
-
-      <!-- Songs will be inserted using JavaScript -->
-      <div id="songGrid" class="song-grid"></div>
-
+      <div id="recommendationGrid" class="song-grid"><p class="muted">Sign in to get recommendations from your favourites and listening history.</p></div>
     </section>
 
+    <section class="upload-panel">
+      <details id="uploadDetails">
+        <summary><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Add a track you own</summary>
+        <p class="muted">Upload audio you created or have permission to store and share. Files are stored on the server; keep backups of your originals.</p>
+        <form id="uploadForm" class="upload-form">
+          <label>Song title<input name="title" required maxlength="160" placeholder="Song title"></label>
+          <label>Artist<input name="artist" required maxlength="120" placeholder="Artist name"></label>
+          <label>Album<input name="album" maxlength="160" placeholder="Album (optional)"></label>
+          <label>Genre<input name="genre" maxlength="60" placeholder="Genre (optional)"></label>
+          <label class="full-span">Audio file (MP3, M4A, WAV, OGG, WebM or FLAC)<input name="audio" type="file" accept=".mp3,.m4a,.mp4,.wav,.ogg,.webm,.flac,audio/*" required></label>
+          <button class="primary-button" type="submit"><i class="fa-solid fa-upload" aria-hidden="true"></i> Upload track</button>
+          <p id="uploadStatus" class="form-status" role="status"></p>
+        </form>
+      </details>
+    </section>
 
-    <!-- Recently Played -->
     <section class="music-section">
-
       <div class="section-header">
-
-        <h2>Recently Played</h2>
-
+        <div><p class="eyebrow">THE COLLECTION</p><h2>Available tracks</h2></div>
+        <span id="songCount" class="muted"></span>
       </div>
-
-      <div id="recentList" class="recent-list"></div>
-
+      <div id="songGrid" class="song-grid" aria-live="polite"><p class="muted">Loading your music library…</p></div>
     </section>
 
+    <section class="music-section" id="library">
+      <div class="section-header">
+        <div><p class="eyebrow">YOUR SAVED MUSIC</p><h2>Favourite tracks</h2></div>
+        <span class="muted">Synced to your account</span>
+      </div>
+      <div id="likesList" class="song-grid"><p class="muted">Sign in to save favourites across devices.</p></div>
+      <div class="section-header playlist-heading">
+        <div><p class="eyebrow">MADE BY YOU</p><h2>Your playlists</h2></div>
+      </div>
+      <div id="playlistList" class="playlist-list"><p class="muted">Your playlists will appear here after sign in.</p></div>
+    </section>
+
+    <section class="music-section" id="recentSection">
+      <div class="section-header">
+        <div><p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p><h2>Recently played</h2></div>
+      </div>
+      <div id="recentList" class="recent-list"><p class="muted">Sign in to keep listening history across sessions.</p></div>
+    </section>
+
+    <footer class="page-footer">
+      <span>SoundSphere · Personal music library</span>
+      <span>Use audio you own or are licensed to use.</span>
+    </footer>
   </main>
 
-
-  <!-- Bottom Music Player -->
-  <footer class="music-player">
-
-
-    <!-- Current Song Details -->
+  <footer class="music-player" aria-label="Music player">
     <div class="now-playing">
-
-      <img
-        id="currentCover"
-        src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=200"
-        alt="Current song cover">
-
-      <div class="song-details">
-
-        <strong id="currentTitle">
-          Choose a song
-        </strong>
-
-        <p id="currentArtist">
-          Ujjwal Music
-        </p>
-
-      </div>
-
-      <button id="likeButton" title="Like song">
-        ♡
-      </button>
-
+      <img id="currentCover" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200&auto=format&fit=crop&q=80" alt="Current track cover">
+      <div class="song-details"><strong id="currentTitle">Choose a song</strong><p id="currentArtist">SoundSphere</p></div>
+      <button id="likeButton" type="button" title="Save favourite" aria-label="Save favourite" aria-pressed="false">♡</button>
     </div>
-
-
-    <!-- Player Controls -->
     <div class="player-controls">
-
       <div class="control-buttons">
-
-        <button id="shuffleButton" title="Shuffle">
-          <i class="fa-solid fa-shuffle"></i>
-        </button>
-
-        <button id="previousButton" title="Previous">
-          <i class="fa-solid fa-backward-step"></i>
-        </button>
-
-        <button id="playButton" class="play-button" title="Play">
-          <i class="fa-solid fa-play"></i>
-        </button>
-
-        <button id="nextButton" title="Next">
-          <i class="fa-solid fa-forward-step"></i>
-        </button>
-
-        <button id="repeatButton" title="Repeat">
-          <i class="fa-solid fa-repeat"></i>
-        </button>
-
+        <button id="shuffleButton" type="button" title="Shuffle" aria-label="Toggle shuffle" aria-pressed="false"><i class="fa-solid fa-shuffle" aria-hidden="true"></i></button>
+        <button id="previousButton" type="button" title="Previous" aria-label="Previous track"><i class="fa-solid fa-backward-step" aria-hidden="true"></i></button>
+        <button id="playButton" class="play-button" type="button" title="Play" aria-label="Play or pause"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+        <button id="nextButton" type="button" title="Next" aria-label="Next track"><i class="fa-solid fa-forward-step" aria-hidden="true"></i></button>
+        <button id="repeatButton" type="button" title="Repeat current track" aria-label="Toggle repeat" aria-pressed="false"><i class="fa-solid fa-repeat" aria-hidden="true"></i></button>
       </div>
-
-
-      <!-- Progress Bar -->
       <div class="progress-row">
-
-        <span id="currentTime">
-          0:00
-        </span>
-
-        <input
-          type="range"
-          id="progress"
-          min="0"
-          max="100"
-          value="0">
-
-        <span id="duration">
-          0:00
-        </span>
-
+        <span id="currentTime">0:00</span>
+        <input type="range" id="progress" min="0" max="100" value="0" aria-label="Playback position">
+        <span id="duration">0:00</span>
       </div>
-
+      <p id="playerStatus" class="player-status" aria-live="polite"></p>
     </div>
-
-
-    <!-- Volume -->
-    <div class="volume-control">
-
-      <i class="fa-solid fa-volume-high"></i>
-
-      <input
-        type="range"
-        id="volume"
-        min="0"
-        max="1"
-        step="0.01"
-        value="0.8">
-
-    </div>
-
+    <div class="volume-control"><i class="fa-solid fa-volume-high" aria-hidden="true"></i><input type="range" id="volume" min="0" max="1" step="0.01" value="0.8" aria-label="Volume"></div>
   </footer>
+  <audio id="audio" preload="metadata"></audio>
 
-
-  <!-- Audio Element -->
-  <audio id="audio"></audio>
-
-
-  <!-- JavaScript -->
-  <script src="script.js"></script>
-
+  <div class="dialog-overlay" id="authDialog" hidden>
+    <section class="dialog-card" role="dialog" aria-modal="true" aria-labelledby="authHeading">
+      <button class="dialog-close" id="closeAuth" type="button" aria-label="Close sign in dialog">×</button>
+      <p class="eyebrow">YOUR MUSIC, SAVED</p>
+      <h2 id="authHeading">Sign in to SoundSphere</h2>
+      <p class="muted">Your playlists, favourites and listening progress will be saved to your account.</p>
+      <form id="authForm" class="auth-form">
+        <label id="nameField" hidden>Your name<input id="authName" name="name" autocomplete="name" maxlength="60"></label>
+        <label>Email<input id="authEmail" name="email" type="email" autocomplete="email" required maxlength="254"></label>
+        <label>Password<input id="authPassword" name="password" type="password" autocomplete="current-password" required minlength="10" maxlength="128"></label>
+        <p class="muted small-note">Use at least 10 characters for your password.</p>
+        <p id="authError" class="form-status" role="alert"></p>
+        <button id="authSubmit" class="primary-button" type="submit">Sign in</button>
+      </form>
+      <button id="toggleAuthMode" class="text-button" type="button">New here? Create an account</button>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
-
 </html>
