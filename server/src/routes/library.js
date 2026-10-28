@@ -7,6 +7,10 @@ const { requireAuth } = require("../middleware/auth");
 const router = express.Router();
 router.use(requireAuth);
 
+function visibleSongFilter(songId, userId) {
+  return { _id: songId, $or: [{ isPublic: true }, { uploadedBy: userId }] };
+}
+
 router.get("/likes", async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).populate("likedSongs", "title artist album genre coverUrl audioUrl durationSeconds").lean();
@@ -17,7 +21,7 @@ router.get("/likes", async (req, res, next) => {
 router.put("/likes/:songId", async (req, res, next) => {
   try {
     if (!mongoose.isValidObjectId(req.params.songId)) return res.status(400).json({ error: "Invalid song id." });
-    const song = await Song.findOne({ _id: req.params.songId, isPublic: true }).select("_id");
+    const song = await Song.findOne(visibleSongFilter(req.params.songId, req.user._id)).select("_id");
     if (!song) return res.status(404).json({ error: "Song not found." });
     const alreadyLiked = req.user.likedSongs.some(id => id.toString() === song._id.toString());
     const update = alreadyLiked ? { $pull: { likedSongs: song._id } } : { $addToSet: { likedSongs: song._id } };
@@ -41,11 +45,9 @@ router.post("/history", async (req, res, next) => {
   try {
     const { songId } = req.body;
     if (!mongoose.isValidObjectId(songId)) return res.status(400).json({ error: "A valid songId is required." });
-    const song = await Song.findOne({ _id: songId, isPublic: true }).select("_id");
+    const song = await Song.findOne(visibleSongFilter(songId, req.user._id)).select("_id");
     if (!song) return res.status(404).json({ error: "Song not found." });
-    await User.updateOne({ _id: req.user._id }, {
-      $pull: { recentlyPlayed: { song: song._id } }
-    });
+    await User.updateOne({ _id: req.user._id }, { $pull: { recentlyPlayed: { song: song._id } } });
     await User.updateOne({ _id: req.user._id }, {
       $push: { recentlyPlayed: { $each: [{ song: song._id, playedAt: new Date(), positionSeconds: 0 }], $position: 0, $slice: 30 } }
     });
@@ -70,7 +72,7 @@ router.put("/playback", async (req, res, next) => {
     if (!Number.isFinite(positionSeconds) || positionSeconds < 0 || positionSeconds > 86400) {
       return res.status(400).json({ error: "Playback position must be a valid number of seconds." });
     }
-    const song = await Song.findOne({ _id: songId, isPublic: true }).select("_id");
+    const song = await Song.findOne(visibleSongFilter(songId, req.user._id)).select("_id");
     if (!song) return res.status(404).json({ error: "Song not found." });
     await User.updateOne({ _id: req.user._id }, {
       $set: { lastPlayback: { song: song._id, positionSeconds, updatedAt: new Date() } }
