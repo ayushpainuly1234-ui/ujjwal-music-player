@@ -3,12 +3,14 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const mongoose = require("mongoose");
 const { app, seedDemoSongs } = require("../src/server");
+const runIntegration = process.env.RUN_DB_INTEGRATION_TESTS === "true" && Boolean(process.env.MONGO_URI);
 
 test("account, catalogue, private uploads, playlists, favourites and playback recovery work end to end", {
-  skip: !process.env.MONGO_URI
+  skip: !runIntegration
 }, async t => {
   await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 15000 });
   await mongoose.connection.dropDatabase();
+  await Promise.all(Object.values(mongoose.connection.models).map(model => model.init()));
   await seedDemoSongs();
 
   const httpServer = await new Promise(resolve => {
