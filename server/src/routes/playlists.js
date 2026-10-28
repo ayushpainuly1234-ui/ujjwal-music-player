@@ -18,8 +18,9 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const name = typeof req.body.name === "string" ? req.body.name.trim() : "";
-    const description = typeof req.body.description === "string" ? req.body.description.trim() : "";
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const description = typeof body.description === "string" ? body.description.trim() : "";
     if (name.length < 1 || name.length > 80) return res.status(400).json({ error: "Playlist name must be 1–80 characters." });
     if (description.length > 300) return res.status(400).json({ error: "Description must be 300 characters or fewer." });
     const playlist = await Playlist.create({ name, description, owner: req.user._id });
@@ -29,7 +30,8 @@ router.post("/", async (req, res, next) => {
 
 router.post("/:id/songs", async (req, res, next) => {
   try {
-    const songId = req.body.songId;
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const songId = body.songId;
     if (!/^[a-f\d]{24}$/i.test(String(songId || ""))) return res.status(400).json({ error: "A valid songId is required." });
     const [playlist, song] = await Promise.all([
       Playlist.findOne({ _id: req.params.id, owner: req.user._id }),
