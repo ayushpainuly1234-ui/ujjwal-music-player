@@ -618,8 +618,17 @@ async function signOut() {
   state.likedSongs = [];
   state.playlists = [];
   state.history = [];
+  state.currentSongId = null;
+  audio.removeAttribute("src");
+  audio.load();
+  el("currentTitle").textContent = "Choose a song";
+  el("currentArtist").textContent = "SoundSphere";
+  el("currentCover").src = fallbackCover;
+  el("likeButton").textContent = "♡";
+  el("likeButton").setAttribute("aria-pressed", "false");
+  setButtonIcon(el("playButton"), "fa-solid fa-play");
   paintAccount();
-  renderSongs(state.songs);
+  await loadSongs(searchInput.value);
   renderLikes();
   renderPlaylists();
   renderHistory();
@@ -664,6 +673,7 @@ el("authForm").addEventListener("submit", async event => {
     closeAuth();
     el("authForm").reset();
     paintAccount();
+    await loadSongs(searchInput.value);
     await loadAccountData();
     notify(registering ? "Account created. Your music library is ready." : "Welcome back, " + state.user.name + ".");
   } catch (error) {
@@ -781,6 +791,7 @@ async function init() {
     const result = await api("/api/auth/me");
     state.user = result.user;
     paintAccount();
+    await loadSongs(searchInput.value);
     await loadAccountData();
   } catch (_error) {
     state.user = null;
