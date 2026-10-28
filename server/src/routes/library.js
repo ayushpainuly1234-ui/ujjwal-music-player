@@ -43,7 +43,8 @@ router.get("/history", async (req, res, next) => {
 
 router.post("/history", async (req, res, next) => {
   try {
-    const { songId } = req.body;
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const { songId } = body;
     if (!mongoose.isValidObjectId(songId)) return res.status(400).json({ error: "A valid songId is required." });
     const song = await Song.findOne(visibleSongFilter(songId, req.user._id)).select("_id");
     if (!song) return res.status(404).json({ error: "Song not found." });
@@ -66,8 +67,9 @@ router.get("/playback", async (req, res, next) => {
 
 router.put("/playback", async (req, res, next) => {
   try {
-    const songId = req.body.songId;
-    const positionSeconds = Number(req.body.positionSeconds);
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const songId = body.songId;
+    const positionSeconds = Number(body.positionSeconds);
     if (!mongoose.isValidObjectId(songId)) return res.status(400).json({ error: "A valid songId is required." });
     if (!Number.isFinite(positionSeconds) || positionSeconds < 0 || positionSeconds > 86400) {
       return res.status(400).json({ error: "Playback position must be a valid number of seconds." });
