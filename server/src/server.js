@@ -28,7 +28,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       baseUri: ["'self'"],
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
       mediaSrc: ["'self'", "https:", "blob:"],
@@ -67,12 +67,6 @@ app.use("/api/songs", require("./routes/songs"));
 app.use("/api/playlists", require("./routes/playlists"));
 app.use("/api/library", require("./routes/library"));
 
-app.use("/uploads", express.static(uploadDirectory, {
-  fallthrough: false,
-  dotfiles: "deny",
-  index: false,
-  maxAge: process.env.NODE_ENV === "production" ? "1h" : 0
-}));
 app.use("/songs", express.static(path.join(projectRoot, "songs"), {
   dotfiles: "deny",
   index: false,
