@@ -7,6 +7,20 @@ function tokenFromRequest(req) {
   return req.cookies && req.cookies.token;
 }
 
+async function optionalAuth(req, _res, next) {
+  try {
+    const token = tokenFromRequest(req);
+    if (!token) return next();
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(payload.sub).select("_id name email likedSongs recentlyPlayed");
+    if (user) req.user = user;
+    return next();
+  } catch (error) {
+    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") return next();
+    return next(error);
+  }
+}
+
 async function requireAuth(req, res, next) {
   try {
     const token = tokenFromRequest(req);
@@ -17,13 +31,13 @@ async function requireAuth(req, res, next) {
     if (!user) return res.status(401).json({ error: "Account not found. Sign in again." });
 
     req.user = user;
-    next();
+    return next();
   } catch (error) {
     if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
       return res.status(401).json({ error: "Your session is invalid or expired. Please sign in again." });
     }
-    next(error);
+    return next(error);
   }
 }
 
-module.exports = { requireAuth };
+module.exports = { requireAuth, optionalAuth };
