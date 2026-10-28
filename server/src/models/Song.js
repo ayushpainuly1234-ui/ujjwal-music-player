@@ -7,8 +7,9 @@ const songSchema = new mongoose.Schema({
   genre: { type: String, trim: true, maxlength: 60, default: "Other", index: true },
   coverUrl: { type: String, trim: true, maxlength: 1000, default: "" },
   audioUrl: { type: String, required: true, trim: true, maxlength: 1000 },
+  audioFileName: { type: String, select: false, default: null },
   durationSeconds: { type: Number, min: 0, default: 0 },
-  uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+  uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null, index: true },
   isPublic: { type: Boolean, default: true, index: true },
   source: { type: String, enum: ["demo", "upload"], default: "demo" }
 }, { timestamps: true });
