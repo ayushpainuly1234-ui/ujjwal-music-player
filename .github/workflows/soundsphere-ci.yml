@@ -9,6 +9,19 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      MONGO_URI: mongodb://127.0.0.1:27017/soundsphere_test
+      JWT_SECRET: github-actions-test-secret-not-for-production-123456
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand(\"ping\").ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     defaults:
       run:
         working-directory: server
@@ -22,5 +35,6 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           find src test -name '*.js' -type f -print0 | xargs -0 -n1 node --check
+          node --check ../fullstack/script.js
       - name: Run validation tests
         run: npm test
