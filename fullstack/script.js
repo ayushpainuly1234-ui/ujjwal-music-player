@@ -13,6 +13,7 @@ const state = {
   likedSongs: [],
   playlists: [],
   history: [],
+  recommendations: [],
   shuffle: false,
   repeat: false,
   authMode: "login",
@@ -158,6 +159,10 @@ function makeSongCard(song, mode = "catalogue") {
   const artist = document.createElement("p");
   artist.textContent = [song.artist || "Unknown artist", song.genre || ""].filter(Boolean).join(" · ");
 
+  const reason = document.createElement("p");
+  reason.className = "recommendation-reason";
+  reason.textContent = mode === "recommendation" ? (song.recommendationReason || "Picked from your library") : "";
+
   const actions = document.createElement("div");
   actions.className = "song-card-actions";
   const like = document.createElement("button");
@@ -167,7 +172,7 @@ function makeSongCard(song, mode = "catalogue") {
   like.addEventListener("click", () => toggleLike(songId));
 
   actions.appendChild(like);
-  if (mode === "catalogue") {
+  if (mode === "catalogue" || mode === "recommendation") {
     const add = document.createElement("button");
     add.type = "button";
     add.className = "add-song";
@@ -176,7 +181,8 @@ function makeSongCard(song, mode = "catalogue") {
     actions.appendChild(add);
   }
 
-  card.append(cover, play, title, artist, actions);
+  if (mode === "recommendation") card.append(cover, play, title, artist, reason, actions);
+  else card.append(cover, play, title, artist, actions);
   return card;
 }
 
@@ -339,6 +345,43 @@ function renderHistory() {
   }
 }
 
+function renderRecommendations() {
+  const container = el("recommendationGrid");
+  container.replaceChildren();
+  if (!state.user) {
+    const message = document.createElement("p");
+    message.className = "muted";
+    message.textContent = "Sign in to get recommendations from your favourites and listening history.";
+    container.appendChild(message);
+    return;
+  }
+  if (!state.recommendations.length) {
+    const message = document.createElement("p");
+    message.className = "muted";
+    message.textContent = "Listen to a few tracks or save favourites to build your personal recommendations.";
+    container.appendChild(message);
+    return;
+  }
+  state.recommendations.forEach(song => container.appendChild(makeSongCard(song, "recommendation")));
+}
+
+async function refreshRecommendations() {
+  if (!state.user) {
+    state.recommendations = [];
+    renderRecommendations();
+    return;
+  }
+  try {
+    const data = await api("/api/library/recommendations");
+    state.recommendations = Array.isArray(data.songs) ? data.songs : [];
+  } catch (_error) {
+    state.recommendations = [];
+  }
+  renderRecommendations();
+}
+
+
+
 async function loadSongs(query = "") {
   const params = new URLSearchParams({ limit: "50" });
   if (query.trim()) params.set("q", query.trim());
@@ -360,11 +403,12 @@ async function loadSongs(query = "") {
 }
 
 async function loadAccountData() {
-  const [likesResult, playlistsResult, historyResult, playbackResult] = await Promise.allSettled([
+  const [likesResult, playlistsResult, historyResult, playbackResult, recommendationResult] = await Promise.allSettled([
     api("/api/library/likes"),
     api("/api/playlists"),
     api("/api/library/history"),
-    api("/api/library/playback")
+    api("/api/library/playback"),
+    api("/api/library/recommendations")
   ]);
 
   state.likedSongs = likesResult.status === "fulfilled" && Array.isArray(likesResult.value.songs)
@@ -373,12 +417,15 @@ async function loadAccountData() {
     ? playlistsResult.value.playlists : [];
   state.history = historyResult.status === "fulfilled" && Array.isArray(historyResult.value.history)
     ? historyResult.value.history : [];
+  state.recommendations = recommendationResult.status === "fulfilled" && Array.isArray(recommendationResult.value.songs)
+    ? recommendationResult.value.songs : [];
 
   paintAccount();
   renderSongs(state.songs);
   renderLikes();
   renderPlaylists();
   renderHistory();
+  renderRecommendations();
 
   if (playbackResult.status === "fulfilled" && playbackResult.value.playback && playbackResult.value.playback.song) {
     restorePlayback(playbackResult.value.playback);
@@ -491,6 +538,7 @@ async function recordHistory() {
       state.history = [{ song, playedAt: new Date().toISOString(), positionSeconds: 0 },
         ...state.history.filter(item => idOf(item.song) !== state.currentSongId)].slice(0, 30);
       renderHistory();
+      await refreshRecommendations();
     }
   } catch (_error) {
     setPlayerStatus("Could not sync listening history. Check your connection.");
@@ -526,6 +574,7 @@ async function toggleLike(songId) {
     state.likedSongs = Array.isArray(data.songs) ? data.songs : [];
     renderSongs(state.songs);
     renderLikes();
+    await refreshRecommendations();
     if (state.currentSongId) {
       const current = findSong(state.currentSongId);
       if (current) setCurrentSong(current);
@@ -620,6 +669,7 @@ async function signOut() {
   state.likedSongs = [];
   state.playlists = [];
   state.history = [];
+  state.recommendations = [];
   state.currentSongId = null;
   audio.removeAttribute("src");
   audio.load();
@@ -634,6 +684,7 @@ async function signOut() {
   renderLikes();
   renderPlaylists();
   renderHistory();
+  renderRecommendations();
   setPlayerStatus("Signed out. Your public catalogue is still available.");
   notify("You have signed out.");
 }
