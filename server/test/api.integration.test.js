@@ -10,7 +10,7 @@ test("account, catalogue, private uploads, playlists, favourites and playback re
 }, async t => {
   await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 15000 });
   await mongoose.connection.dropDatabase();
-  await Promise.all(Object.values(mongoose.connection.models).map(model => model.init()));
+  await mongoose.model("User").collection.createIndex({ email: 1 }, { unique: true });
   await seedDemoSongs();
 
   const httpServer = await new Promise(resolve => {
@@ -51,6 +51,22 @@ test("account, catalogue, private uploads, playlists, favourites and playback re
     body: JSON.stringify({ name: "Test Listener", email: "listener@example.com", password: "long-test-password-123" })
   });
   assert.equal(response.status, 409, "duplicate emails must be rejected");
+
+  response = await request("/api/auth/login", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: "listener@example.com", password: "wrong-password-value" })
+  }, false);
+  assert.equal(response.status, 401, "wrong passwords must not create a session");
+
+  response = await request("/api/auth/login", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: "listener@example.com", password: "long-test-password-123" })
+  }, false);
+  assert.equal(response.status, 200);
+  cookie = (response.headers.get("set-cookie") || "").split(";")[0];
+  assert.match(cookie, /^token=/);
 
   response = await request("/api/songs?limit=50");
   assert.equal(response.status, 200);
