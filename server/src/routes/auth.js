@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { requireAuth } = require("../middleware/auth");
+const { validateRegistration } = require("../utils/validation");
 
 const router = express.Router();
 const COOKIE_NAME = "token";
@@ -35,15 +36,8 @@ router.post("/register", async (req, res, next) => {
     const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
     const password = typeof req.body.password === "string" ? req.body.password : "";
 
-    if (name.length < 2 || name.length > 60) {
-      return res.status(400).json({ error: "Name must contain 2–60 characters." });
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
-      return res.status(400).json({ error: "Enter a valid email address." });
-    }
-    if (password.length < 10 || password.length > 128) {
-      return res.status(400).json({ error: "Password must be 10–128 characters long." });
-    }
+    const validationError = validateRegistration({ name, email, password });
+    if (validationError) return res.status(400).json({ error: validationError });
 
     const passwordHash = await bcrypt.hash(password, 12);
     const user = await User.create({ name, email, passwordHash });
