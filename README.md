@@ -1,11 +1,11 @@
-# Ujjwal Music Player
+# EchoTune — Web Music Player
 
 ![JavaScript syntax checks](https://github.com/ayushpainuly1234-ui/ujjwal-music-player/actions/workflows/ci.yml/badge.svg)
 
-A responsive, browser-based music player built with **HTML, CSS, and vanilla JavaScript**. It plays a small playlist of local audio files and provides the core controls needed for a lightweight listening experience.
+A responsive, browser-based music player built with **HTML, CSS, and vanilla JavaScript**. It plays a curated playlist of local audio files and provides the core controls for a lightweight listening experience.
 
-> **Live demo:** [Open Ujjwal Music Player](https://ayushpainuly1234-ui.github.io/ujjwal-music-player/)  
-> **Project status:** Frontend prototype deployed with GitHub Pages. It runs in the browser and uses the repository's local audio assets.
+> **Live demo:** [Try EchoTune](https://ayushpainuly1234-ui.github.io/ujjwal-music-player/)  
+> **Project status:** Frontend prototype deployed with GitHub Pages. It runs in the browser and uses local audio assets stored in the repository.
 
 ## Features
 
@@ -19,10 +19,10 @@ A responsive, browser-based music player built with **HTML, CSS, and vanilla Jav
 
 ## Tech stack
 
-- HTML5 — page structure and audio elements
-- CSS3 — responsive layout and styling
-- JavaScript — playlist state, audio controls, search and progress updates
-- HTML Audio API — playback and media events
+- **HTML5** — page structure and audio elements
+- **CSS3** — responsive layout and styling
+- **Vanilla JavaScript** — playlist state, audio controls, search and progress updates
+- **HTML Audio API** — playback and media events
 
 ## Run locally
 
@@ -38,7 +38,7 @@ No package installation or build step is needed.
 
 4. Open [http://localhost:8000](http://localhost:8000) in your browser.
 
-You can also open `index.html` directly, but a local server is the more reliable option for browser testing. Make sure the audio files under `songs/` remain in place so the relative media paths resolve.
+You can also open `index.html` directly, but a local server is the more reliable option for browser testing. Keep the audio files under `songs/` in place so the relative media paths resolve.
 
 ## Project structure
 
@@ -52,11 +52,11 @@ ujjwal-music-player/
 └── songs/leetcode/  # Separate page/experiment
 ```
 
-The main application is the set of root-level `index.html`, `style.css`, and `script.js` files. The nested folders contain separate versions and are not required to run the main page.
+The main application is the root-level `index.html`, `style.css`, and `script.js`. Nested folders contain separate versions or experiments and are not required to run the main player.
 
 ## Manual verification checklist
 
-GitHub Actions runs `node --check` on every JavaScript file whenever code is pushed or a pull request targets `main`. This catches syntax errors, but it is not a substitute for behavioral unit tests. Before presenting a change as verified, check it in a browser:
+GitHub Actions runs `node --check` on JavaScript files whenever code is pushed or a pull request targets `main`. This catches syntax errors, but it is not a substitute for behavioral tests. Before presenting changes as verified, check them in a browser:
 
 - [ ] A track starts and pauses with the expected controls.
 - [ ] Starting a different track pauses the previously playing track.
@@ -65,18 +65,18 @@ GitHub Actions runs `node --check` on every JavaScript file whenever code is pus
 - [ ] The progress indicator updates during playback and seeking works.
 - [ ] The layout remains usable on a narrow screen.
 
-## Possible next improvements
+## Potential next improvements
 
 - Add automated tests for playlist state and control behavior.
 - Improve keyboard navigation and screen-reader labels.
-- Add explicit loading/error feedback for missing or unsupported audio files.
-- Publish a live demo and add a screenshot after verifying it in a browser.
+- Add clear loading/error feedback for missing or unsupported audio files.
+- Add a current screenshot after browser verification.
 - Review audio asset licensing before distributing the repository publicly.
 
 ## Author
 
-**Ujjwal Painuly** · [GitHub profile](https://github.com/ayushpainuly1234-ui)
+[GitHub profile](https://github.com/ayushpainuly1234-ui)
 
 ---
 
-This project is for learning and portfolio demonstration. Only distribute audio assets that you have permission to share.
+EchoTune is a learning and portfolio project. Only distribute audio assets that you have permission to share.
