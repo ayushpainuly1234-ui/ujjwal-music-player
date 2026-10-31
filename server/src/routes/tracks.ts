@@ -26,7 +26,7 @@ trackRouter.get("/", async (req, res, next) => {
 
 trackRouter.get("/:id", async (req, res, next) => {
   try {
-    if (!/^[a-f\\d]{24}$/i.test(req.params.id)) return res.status(400).json({ error: { code: "INVALID_ID" } });
+    if (!/^[a-f\d]{24}$/i.test(req.params.id)) return res.status(400).json({ error: { code: "INVALID_ID" } });
     const track = await Track.findOne({ _id: req.params.id, isPublished: true }).lean();
     if (!track) return res.status(404).json({ error: { code: "TRACK_NOT_FOUND" } });
     return res.json({ data: track });
