@@ -397,3 +397,84 @@ for (let i = 0; i < playlist.length; i++) {
 // ===============================
 
 updateButtons();
+
+// ===============================
+// ECHOTUNE ACCOUNT / API
+// ===============================
+const API_BASE = window.ECHOTUNE_API_URL || "http://localhost:4000/api/v1";
+const authDialog = document.getElementById("authDialog");
+const authForm = document.getElementById("authForm");
+const authTitle = document.getElementById("authTitle");
+const authError = document.getElementById("authError");
+const authStatus = document.getElementById("authStatus");
+const nameField = document.getElementById("nameField");
+const authSubmit = document.getElementById("authSubmit");
+const logoutBtn = document.getElementById("logoutBtn");
+let authMode = "login";
+
+function setAuthStatus(user) {
+    if (user) {
+        authStatus.textContent = `Signed in as ${user.displayName} (${user.email})`;
+        logoutBtn.hidden = false;
+    } else {
+        authStatus.textContent = "Not signed in";
+        logoutBtn.hidden = true;
+    }
+}
+
+function openAuth(mode) {
+    authMode = mode;
+    authTitle.textContent = mode === "register" ? "Create your EchoTune account" : "Sign in to EchoTune";
+    authSubmit.textContent = mode === "register" ? "Create account" : "Sign in";
+    nameField.hidden = mode !== "register";
+    document.getElementById("password").autocomplete = mode === "register" ? "new-password" : "current-password";
+    authError.textContent = "";
+    authDialog.showModal();
+}
+
+document.getElementById("openLogin")?.addEventListener("click", () => openAuth("login"));
+document.getElementById("openRegister")?.addEventListener("click", () => openAuth("register"));
+document.getElementById("closeAuth")?.addEventListener("click", () => authDialog.close());
+
+authForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    authError.textContent = "";
+    authSubmit.disabled = true;
+    const payload = {
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value
+    };
+    if (authMode === "register") payload.displayName = document.getElementById("displayName").value.trim();
+
+    try {
+        const response = await fetch(`${API_BASE}/auth/${authMode}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error?.message || "Authentication failed.");
+        // Short-lived access token; never store passwords.
+        sessionStorage.setItem("echotune.accessToken", result.accessToken);
+        sessionStorage.setItem("echotune.user", JSON.stringify(result.user));
+        setAuthStatus(result.user);
+        authDialog.close();
+        authForm.reset();
+    } catch (error) {
+        authError.textContent = error instanceof Error ? error.message : "Unable to connect to EchoTune API.";
+    } finally {
+        authSubmit.disabled = false;
+    }
+});
+
+logoutBtn?.addEventListener("click", () => {
+    sessionStorage.removeItem("echotune.accessToken");
+    sessionStorage.removeItem("echotune.user");
+    setAuthStatus(null);
+});
+
+const savedUser = sessionStorage.getItem("echotune.user");
+if (savedUser) {
+    try { setAuthStatus(JSON.parse(savedUser)); }
+    catch { sessionStorage.removeItem("echotune.user"); }
+}
