@@ -1,82 +1,156 @@
-# EchoTune — Web Music Player
+# EchoTune — Full-Stack Music Player
 
-![JavaScript syntax checks](https://github.com/ayushpainuly1234-ui/ujjwal-music-player/actions/workflows/ci.yml/badge.svg)
+EchoTune is Ujjwal's evolving music-player project. The original browser music player is being upgraded in the **same repository** with an API, database-backed accounts and a track catalogue. The existing player, song assets and GitHub Pages demo are retained.
 
-A responsive, browser-based music player built with **HTML, CSS, and vanilla JavaScript**. It plays a curated playlist of local audio files and provides the core controls for a lightweight listening experience.
+> **Live frontend demo:** https://ayushpainuly1234-ui.github.io/ujjwal-music-player/  
+> **Repository:** https://github.com/ayushpainuly1234-ui/ujjwal-music-player
 
-> **Live demo:** [Try EchoTune](https://ayushpainuly1234-ui.github.io/ujjwal-music-player/)  
-> **Project status:** Frontend prototype deployed with GitHub Pages. It runs in the browser and uses local audio assets stored in the repository.
+## Product direction
 
-## Features
+A personal music-streaming experience with a responsive player, searchable music catalogue and user accounts. This is a portfolio and learning project; it is not affiliated with Spotify or any commercial streaming service.
 
-- Play and pause tracks from the playlist.
-- Move to the next or previous track, including wrapping around the playlist.
-- Search/filter the visible song list by title.
-- View the current track name and playback progress.
-- Seek through a track using the progress control.
-- Responsive layout for desktop and mobile-sized screens.
-- Local audio assets; no backend or external API is required.
+## Technology
 
-## Tech stack
+| Layer | Technology |
+|---|---|
+| Existing frontend | HTML5, CSS3, Vanilla JavaScript, HTML Audio API |
+| API | Node.js, Express 4, TypeScript |
+| Database | MongoDB, Mongoose |
+| Authentication | JWT access tokens, bcrypt password hashing |
+| Validation | Zod |
+| API protection | Helmet, CORS, request rate limiting |
+| Current demo hosting | GitHub Pages for the static frontend |
 
-- **HTML5** — page structure and audio elements
-- **CSS3** — responsive layout and styling
-- **Vanilla JavaScript** — playlist state, audio controls, search and progress updates
-- **HTML Audio API** — playback and media events
+## Current functionality
 
-## Run locally
+### Frontend
+- Existing music player with play/pause, next/previous and track progress controls.
+- Search/filter for the local playlist.
+- Responsive layout and project/about sections.
+- Sign-up and sign-in dialog connected to the API.
+- Access token and signed-in display stored for the current browser tab only (sessionStorage).
 
-No package installation or build step is needed.
+### Backend API
+- Health-check endpoint.
+- User registration with input validation and bcrypt password hashing.
+- Login with password verification and short-lived signed access tokens.
+- Authenticated current-user endpoint.
+- Track catalogue endpoint with text search and pagination.
+- Track detail endpoint.
+- Authenticated track creation endpoint.
+- Central error response, security headers and rate limiting.
 
-1. Clone or download this repository.
-2. Open a terminal in the repository root.
-3. Start a static file server. For example, with Python:
-
-   ```bash
-   python -m http.server 8000
-   ```
-
-4. Open [http://localhost:8000](http://localhost:8000) in your browser.
-
-You can also open `index.html` directly, but a local server is the more reliable option for browser testing. Keep the audio files under `songs/` in place so the relative media paths resolve.
-
-## Project structure
+## Repository structure
 
 ```text
 ujjwal-music-player/
-├── index.html       # Main player page
-├── style.css        # Main responsive styles
-├── script.js        # Playlist and playback controls
-├── songs/           # Local audio assets used by the main page
-├── fullstack/       # Separate experimental version
-└── songs/leetcode/  # Separate page/experiment
+├── index.html                 # Existing music-player interface + account dialog
+├── style.css                  # Existing player styling + account UI
+├── script.js                  # Player controls + account API integration
+├── songs/                     # Existing local audio assets and experiments
+├── fullstack/                 # Earlier frontend experiment, retained
+└── server/
+    ├── .env.example
+    ├── package.json
+    ├── tsconfig.json
+    └── src/
+        ├── config/env.ts
+        ├── index.ts
+        ├── middleware/auth.ts
+        ├── models/User.ts
+        ├── models/Track.ts
+        └── routes/
+            ├── auth.ts
+            └── tracks.ts
 ```
 
-The main application is the root-level `index.html`, `style.css`, and `script.js`. Nested folders contain separate versions or experiments and are not required to run the main player.
+## Run locally
 
-## Manual verification checklist
+### Requirements
+- Node.js 20 or newer
+- MongoDB running locally, or a MongoDB Atlas connection string
+- A static web server for the root frontend (for example VS Code Live Server)
 
-GitHub Actions runs `node --check` on JavaScript files whenever code is pushed or a pull request targets `main`. This catches syntax errors, but it is not a substitute for behavioral tests. Before presenting changes as verified, check them in a browser:
+### 1. Start the API
 
-- [ ] A track starts and pauses with the expected controls.
-- [ ] Starting a different track pauses the previously playing track.
-- [ ] Next and previous buttons switch tracks and wrap at the ends.
-- [ ] Search filters track cards without breaking playback controls.
-- [ ] The progress indicator updates during playback and seeking works.
-- [ ] The layout remains usable on a narrow screen.
+```bash
+cd server
+npm install
+```
 
-## Potential next improvements
+Copy .env.example to .env, then set a private MongoDB URI and a random JWT secret of at least 32 characters.
 
-- Add automated tests for playlist state and control behavior.
-- Improve keyboard navigation and screen-reader labels.
-- Add clear loading/error feedback for missing or unsupported audio files.
-- Add a current screenshot after browser verification.
-- Review audio asset licensing before distributing the repository publicly.
+```bash
+npm run dev
+```
+
+The API starts at http://localhost:4000. Check http://localhost:4000/api/v1/health.
+
+### 2. Start the existing frontend
+
+From the repository root, open index.html using VS Code Live Server at http://localhost:5500 (or update CLIENT_ORIGIN in the server environment to match your local frontend origin).
+
+The frontend currently calls http://localhost:4000/api/v1. For a deployed frontend, configure the API URL and CORS origin for the deployed backend before enabling account features.
+
+## API reference
+
+Base URL: /api/v1
+
+| Method | Endpoint | Access | Purpose |
+|---|---|---|---|
+| GET | /health | Public | API health |
+| POST | /auth/register | Public | Create an account |
+| POST | /auth/login | Public | Sign in |
+| GET | /auth/me | Bearer token | Get current user |
+| GET | /tracks?q=&page=&limit= | Public | Search and paginate published tracks |
+| GET | /tracks/:id | Public | Get one published track |
+| POST | /tracks | Bearer token | Add a track |
+
+### Register request
+
+```json
+{
+  "displayName": "Ujjwal",
+  "email": "ujjwal@example.com",
+  "password": "use-a-strong-password"
+}
+```
+
+### Authenticated request
+
+Send the access token in the Authorization header using the Bearer scheme.
+
+## Security notes
+
+- Passwords are hashed with bcrypt; plaintext passwords are never stored.
+- Request bodies are validated before database writes.
+- Access tokens are short-lived (15 minutes).
+- The frontend keeps the access token in session storage, not local storage. For production, consider an HttpOnly, Secure, SameSite refresh-token cookie and CSRF protection.
+- Keep .env out of Git. Never commit real credentials or private keys.
+- Only upload audio that you own or are licensed to distribute.
+
+## Development status
+
+This is an **active upgrade**, not a claim that every streaming feature is production-ready. The account UI and initial API foundation are present. The static player still uses its existing local song assets; the database catalogue is not yet wired into dynamic playback. Playlist persistence, favourites, listening history, admin moderation, automated tests, cloud audio storage and production deployment remain future milestones.
+
+## Roadmap
+
+- [x] Preserve the original player and local audio library.
+- [x] Add API project structure and MongoDB models.
+- [x] Add registration, login and current-user API routes.
+- [x] Add track listing, search, pagination and detail APIs.
+- [x] Connect the existing interface to account registration and login.
+- [ ] Load and play database-backed tracks in the existing player.
+- [ ] Add persistent playlists, favourites and listening history.
+- [ ] Add admin-only track management and upload workflow.
+- [ ] Add automated API and frontend tests.
+- [ ] Deploy the API and database, then connect the public demo.
+- [ ] Add CI checks and production monitoring.
 
 ## Author
 
-[GitHub profile](https://github.com/ayushpainuly1234-ui)
+Built and maintained by [Ujjwal Painuly](https://github.com/ayushpainuly1234-ui).
 
 ---
 
-EchoTune is a learning and portfolio project. Only distribute audio assets that you have permission to share.
+If you find a bug or have an idea, open a GitHub issue.
